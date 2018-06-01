@@ -1,6 +1,7 @@
 from flask import Flask, Response
 from flask import request
 from pac_class.user import User,tojson
+from pac_util.DBUtil import getConnection
 import pymysql
 import json
 
@@ -12,9 +13,9 @@ def home():
 
 @app.route('/user/list', methods=['GET'])
 def userlist():
-	db = pymysql.connect("rm-2zey1rij96gh594txto.mysql.rds.aliyuncs.com","root","123QWE!@#","heisa")
+	db = getConnection()
 	cursor = db.cursor()
-	sql = 'select * from test'
+	sql = 'select * from user'
 	list = []
 	try:
 		cursor.execute(sql)
