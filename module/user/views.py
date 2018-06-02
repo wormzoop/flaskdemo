@@ -1,12 +1,12 @@
 from module.user import user
 from flask import Response
 from pac_class.user import User,tojson
+from pac_util.DBUtil import getConnection
 import json
-import pymysql
 
 @user.route('/list', methods=['GET','POST'])
 def list():
-	db = pymysql.connect('localhost','root','root','db')
+	db = getConnection()
 	cursor = db.cursor()
 	sql = 'select * from user'
 	list = []
