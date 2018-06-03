@@ -1,7 +1,7 @@
 from module.mall import mall
 from module.mall.mall_ import Mall, tojson
 from flask import Response, session, request
-from pac_util.DBUtil import getConnection
+from util.DBUtil import getConnection
 import json
 
 #商品列表

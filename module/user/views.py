@@ -1,7 +1,7 @@
 from module.user import user
 from flask import Response,session,request
-from pac_class.user import User,tojson
-from pac_util.DBUtil import getConnection
+from module.user.user_ import User,tojson
+from util.DBUtil import getConnection
 import json
 
 #获得用户列表
