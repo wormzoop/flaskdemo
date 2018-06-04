@@ -2,6 +2,8 @@ from module.user import user
 from flask import Response,session,request
 from module.user.user_ import User,tojson
 from util.DBUtil import getConnection
+from util.redisPool import RedisPool
+import pickle #redis序列化
 import json
 
 #获得用户列表
@@ -46,6 +48,8 @@ def login():
 		session['id'] = user.id_
 		session['name'] = user.name
 		session['pwd'] = user.pwd
+		r = RedisPool.getConnect()
+		r.set('user',pickle.dumps(user))
 		return Response(json.dumps(user, default=tojson), 'application/json')
 	except:
 		dict = {'error':'请求失败'}
@@ -58,4 +62,12 @@ def getUser():
 	user.id_ = session.get('id')
 	user.name = session.get('name')
 	user.pwd = session.get('pwd')
-	return Response(json.dumps(user, default=tojson), 'application/json')		
+	return Response(json.dumps(user, default=tojson), 'application/json')
+
+#redis
+@user.route('/redis', methods=['GET','POST'])
+def redis():
+	r = RedisPool.getConnect()
+	u = pickle.loads(r.get('user'))
+	u.toString()
+	return Response(json.dumps(u, default=tojson), 'application/json')
